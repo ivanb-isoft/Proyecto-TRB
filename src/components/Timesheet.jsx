@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react'
+import SlideMenu from './SlideMenu'
 
 const clients = ['Intersoft', 'Cliente Demo']
 
@@ -60,6 +61,7 @@ const createEmptyEntry = (overrides = {}) => {
 
 function Timesheet({ user, onLogout }) {
   const today = useMemo(() => new Date(), [])
+  const [isMenuOpen, setMenuOpen] = useState(false)
   const [filters, setFilters] = useState({
     client: clients[0],
     project: projects[0].id,
@@ -126,10 +128,21 @@ function Timesheet({ user, onLogout }) {
   return (
     <div className="timesheet-layout">
       <div className="brand-accent" />
+      <SlideMenu isOpen={isMenuOpen} onClose={() => setMenuOpen(false)} />
       <header className="timesheet-header">
-        <div className="login-logo">
-          <span className="logo-mark">I</span>
-          <span className="logo-text">Intersoft</span>
+        <div className="header-left">
+          <button
+            type="button"
+            className="icon-button burger-button"
+            onClick={() => setMenuOpen(true)}
+            aria-label="Abrir menú"
+          >
+            ☰
+          </button>
+          <div className="login-logo">
+            <span className="logo-mark">I</span>
+            <span className="logo-text">Intersoft</span>
+          </div>
         </div>
         <div className="header-actions">
           <span className="user-email">{user?.email}</span>
