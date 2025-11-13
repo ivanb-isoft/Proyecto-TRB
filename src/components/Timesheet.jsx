@@ -59,7 +59,7 @@ const createEmptyEntry = (overrides = {}) => {
   }
 }
 
-function Timesheet({ user, onLogout }) {
+function Timesheet({ user, onLogout, onNavigateToHome }) {
   const today = useMemo(() => new Date(), [])
   const [isMenuOpen, setMenuOpen] = useState(false)
   const [filters, setFilters] = useState({
@@ -128,7 +128,16 @@ function Timesheet({ user, onLogout }) {
   return (
     <div className="timesheet-layout">
       <div className="brand-accent" />
-      <SlideMenu isOpen={isMenuOpen} onClose={() => setMenuOpen(false)} />
+      <SlideMenu
+        isOpen={isMenuOpen}
+        onClose={() => setMenuOpen(false)}
+        currentView="timesheet"
+        onNavigate={(view) => {
+          if (view === 'home' && onNavigateToHome) {
+            onNavigateToHome()
+          }
+        }}
+      />
       <header className="timesheet-header">
         <div className="header-left">
           <button

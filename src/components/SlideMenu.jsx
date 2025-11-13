@@ -4,13 +4,25 @@ const menuItems = [
   { id: 'equipo', label: 'Equipo', icon: 'users' },
   { id: 'departamentos', label: 'Departamentos', icon: 'grid' },
   { id: 'proveedores', label: 'Proveedores', icon: 'cart' },
-  { id: 'profesionales', label: 'Profesionales', icon: 'user', active: true },
+  { id: 'profesionales', label: 'Profesionales', icon: 'user' },
   { id: 'clientes', label: 'Clientes', icon: 'briefcase' },
   { id: 'proyectos', label: 'Proyectos', icon: 'folder' },
   { id: 'carga-horas', label: 'Carga de Horas', icon: 'clock' },
 ]
 
-function SlideMenu({ isOpen, onClose }) {
+function SlideMenu({ isOpen, onClose, currentView, onNavigate }) {
+  const handleItemClick = (itemId) => {
+    if (itemId === 'home' && currentView !== 'home') {
+      onNavigate?.('home')
+      onClose()
+    } else if (itemId === 'carga-horas' && currentView !== 'timesheet') {
+      onNavigate?.('timesheet')
+      onClose()
+    } else {
+      onClose()
+    }
+  }
+
   return (
     <>
       <div className={`slide-menu ${isOpen ? 'open' : ''}`}>
@@ -26,8 +38,16 @@ function SlideMenu({ isOpen, onClose }) {
         <nav className="slide-menu__nav">
           <ul>
             {menuItems.map((item) => (
-              <li key={item.id} className={item.active ? 'active' : ''}>
-                <button type="button">
+              <li
+                key={item.id}
+                className={
+                  (item.id === 'home' && currentView === 'home') ||
+                  (item.id === 'carga-horas' && currentView === 'timesheet')
+                    ? 'active'
+                    : ''
+                }
+              >
+                <button type="button" onClick={() => handleItemClick(item.id)}>
                   <span className={`menu-icon icon-${item.icon}`} aria-hidden="true" />
                   <span>{item.label}</span>
                 </button>
