@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="420" height="520" viewBox="0 0 420 520">
+  <defs>
+    <linearGradient id="g1" x1="0%" x2="100%" y1="0%" y2="100%">
+      <stop offset="0%" stop-color="#F44F8B" />
+      <stop offset="100%" stop-color="#F5704E" />
+    </linearGradient>
+    <linearGradient id="g2" x1="0%" x2="100%" y1="0%" y2="100%">
+      <stop offset="0%" stop-color="#00C7B1" />
+      <stop offset="100%" stop-color="#18A0FF" />
+    </linearGradient>
+    <linearGradient id="g3" x1="0%" x2="100%" y1="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFCE4B" />
+      <stop offset="100%" stop-color="#FF9F1A" />
+    </linearGradient>
+  </defs>
+  <g fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-width="24">
+    <path stroke="url(#g1)" d="M110 70c0 66 54 120 120 120" stroke-linejoin="round" />
+    <path stroke="url(#g2)" d="M310 118c0 45-37 82-82 82" />
+    <path stroke="url(#g3)" d="M62 218c56 0 102 46 102 102" />
+    <path stroke="#21B0FF" d="M270 250c0 52 42.5 94.5 94.5 94.5" />
+    <path stroke="#7B61FF" d="M210 314c0 48-39 87-87 87" />
+    <path stroke="#63E07A" d="M132 398c0 46 37 83 83 83" />
+    <path stroke="#FF7F50" d="M324 360c0 36 29 65 65 65" />
+  </g>
+  <g fill-rule="evenodd">
+    <circle cx="262" cy="94" r="16" fill="#63E07A" />
+    <circle cx="94" cy="204" r="18" fill="#21B0FF" />
+    <circle cx="300" cy="344" r="18" fill="#F44F8B" />
+    <circle cx="186" cy="470" r="14" fill="#FFCE4B" />
+    <rect width="32" height="32" x="212" y="188" fill="#F44F8B" rx="16" />
+    <rect width="28" height="28" x="92" y="336" fill="#00C7B1" rx="14" />
+    <rect width="24" height="24" x="340" y="256" fill="#FFCE4B" rx="12" />
+  </g>
+</svg>
+
