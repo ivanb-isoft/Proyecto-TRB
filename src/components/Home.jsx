@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import SlideMenu from './SlideMenu'
 
 const months = [
@@ -105,6 +105,11 @@ function Home({ user, onLogout, onNavigateToTimesheet, onNavigateToClientes }) {
   const [currentPage, setCurrentPage] = useState(1)
   const itemsPerPage = 10
 
+  // Actualizar el título de la pestaña cuando se monta el componente
+  useEffect(() => {
+    document.title = 'Inicio'
+  }, [])
+
   // Mock data
   const totalToLoad = 160
   const loaded = 144
@@ -124,7 +129,7 @@ function Home({ user, onLogout, onNavigateToTimesheet, onNavigateToClientes }) {
   )
 
   return (
-    <div className="home-layout">
+    <div className={`home-layout ${isMenuOpen ? 'menu-open' : ''}`}>
       <div className="brand-accent" />
       <SlideMenu
         isOpen={isMenuOpen}
@@ -142,26 +147,21 @@ function Home({ user, onLogout, onNavigateToTimesheet, onNavigateToClientes }) {
         <div className="header-left">
           <button
             type="button"
-            className="icon-button burger-button"
+            className="logo-button"
             onClick={() => setMenuOpen(true)}
             aria-label="Abrir menú"
           >
-            ☰
+            <img src="/logoIntersoftReducido.png" alt="Intersoft" />
           </button>
           <div className="login-logo">
-            <span className="logo-mark">I</span>
-            <span className="logo-text">Intersoft</span>
           </div>
         </div>
-        <nav className="header-nav">
-          <button type="button" className="nav-link active">
-            Inicio
-          </button>
-          <button type="button" className="nav-link" onClick={onNavigateToTimesheet}>
-            Cargar de Horas
-          </button>
-        </nav>
         <div className="header-actions">
+          {user && (
+            <span className="user-name">
+              {user.nombre} {user.apellido}
+            </span>
+          )}
           <button type="button" className="icon-button user-icon-button" aria-label="Usuario">
             👤
           </button>
