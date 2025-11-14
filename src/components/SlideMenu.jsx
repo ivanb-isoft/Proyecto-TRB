@@ -18,6 +18,9 @@ function SlideMenu({ isOpen, onClose, currentView, onNavigate }) {
     } else if (itemId === 'carga-horas' && currentView !== 'timesheet') {
       onNavigate?.('timesheet')
       onClose()
+    } else if (itemId === 'clientes' && currentView !== 'clientes') {
+      onNavigate?.('clientes')
+      onClose()
     } else {
       onClose()
     }
@@ -42,7 +45,8 @@ function SlideMenu({ isOpen, onClose, currentView, onNavigate }) {
                 key={item.id}
                 className={
                   (item.id === 'home' && currentView === 'home') ||
-                  (item.id === 'carga-horas' && currentView === 'timesheet')
+                  (item.id === 'carga-horas' && currentView === 'timesheet') ||
+                  (item.id === 'clientes' && currentView === 'clientes')
                     ? 'active'
                     : ''
                 }

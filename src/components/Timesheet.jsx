@@ -59,7 +59,7 @@ const createEmptyEntry = (overrides = {}) => {
   }
 }
 
-function Timesheet({ user, onLogout, onNavigateToHome }) {
+function Timesheet({ user, onLogout, onNavigateToHome, onNavigateToClientes }) {
   const today = useMemo(() => new Date(), [])
   const [isMenuOpen, setMenuOpen] = useState(false)
   const [filters, setFilters] = useState({
@@ -135,6 +135,8 @@ function Timesheet({ user, onLogout, onNavigateToHome }) {
         onNavigate={(view) => {
           if (view === 'home' && onNavigateToHome) {
             onNavigateToHome()
+          } else if (view === 'clientes' && onNavigateToClientes) {
+            onNavigateToClientes()
           }
         }}
       />

@@ -93,7 +93,7 @@ const activeProjects = [
   },
 ]
 
-function Home({ user, onLogout, onNavigateToTimesheet }) {
+function Home({ user, onLogout, onNavigateToTimesheet, onNavigateToClientes }) {
   const [isMenuOpen, setMenuOpen] = useState(false)
   const [selectedMonth, setSelectedMonth] = useState('Noviembre')
   const [selectedYear, setSelectedYear] = useState(2023)
@@ -133,6 +133,8 @@ function Home({ user, onLogout, onNavigateToTimesheet }) {
         onNavigate={(view) => {
           if (view === 'timesheet' || view === 'carga-horas') {
             onNavigateToTimesheet()
+          } else if (view === 'clientes' && onNavigateToClientes) {
+            onNavigateToClientes()
           }
         }}
       />

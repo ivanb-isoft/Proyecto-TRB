@@ -1,13 +1,15 @@
 import { useState, useEffect } from 'react'
+import { authService } from '../services/authService'
 
 const initialForm = {
-  username: '',
+  email: '',
   password: '',
 }
 
-function LoginForm({ onLogin }) {
+function LoginForm({ onLogin, onSwitchToRegister }) {
   const [formData, setFormData] = useState(initialForm)
   const [error, setError] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     document.title = 'Login'
@@ -24,21 +26,40 @@ function LoginForm({ onLogin }) {
     }
   }
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault()
-    const trimmedUsername = formData.username.trim()
+    const trimmedEmail = formData.email.trim()
     const trimmedPassword = formData.password.trim()
 
-    if (!trimmedUsername || !trimmedPassword) {
+    if (!trimmedEmail || !trimmedPassword) {
       setError('Por favor, complete todos los campos.')
       return
     }
 
-    // Mock authentication - replace with real service when available
-    onLogin({
-      email: trimmedUsername,
-    })
-    setFormData(initialForm)
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(trimmedEmail)) {
+      setError('Por favor, ingrese un email válido.')
+      return
+    }
+
+    setIsLoading(true)
+    setError('')
+
+    try {
+      const response = await authService.login(trimmedEmail, trimmedPassword)
+      
+      if (response.success) {
+        onLogin(response.user)
+        setFormData(initialForm)
+      } else {
+        setError(response.message || 'Error en el login')
+      }
+    } catch (error) {
+      setError(error.message || 'Error al conectar con el servidor')
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -58,14 +79,14 @@ function LoginForm({ onLogin }) {
           <h2 className="login-heading">Iniciar Sesión</h2>
           <form className="login-form" onSubmit={handleSubmit}>
             <label className="form-field">
-              <span>Usuario</span>
+              <span>Email</span>
               <input
-                type="text"
-                name="username"
-                value={formData.username}
+                type="email"
+                name="email"
+                value={formData.email}
                 onChange={handleChange}
-                placeholder="Ingresá tu usuario"
-                autoComplete="username"
+                placeholder="Ingresá tu email"
+                autoComplete="email"
                 required
               />
             </label>
@@ -83,11 +104,22 @@ function LoginForm({ onLogin }) {
             </label>
             {error ? <p className="form-error">{error}</p> : null}
             <div className="form-footer">
-              <a className="forgot-link" href="#recuperar-contraseña">
-                ¿Olvidaste tu contraseña?
-              </a>
-              <button type="submit" className="primary-button">
-                Aceptar
+              <div className="auth-links">
+                <a className="forgot-link" href="#recuperar-contraseña">
+                  ¿Olvidaste tu contraseña?
+                </a>
+                {onSwitchToRegister && (
+                  <button 
+                    type="button" 
+                    className="register-link"
+                    onClick={onSwitchToRegister}
+                  >
+                    ¿No tienes cuenta? Regístrate
+                  </button>
+                )}
+              </div>
+              <button type="submit" className="login-button" disabled={isLoading}>
+                {isLoading ? 'Iniciando sesión...' : 'Iniciar Sesión'}
               </button>
             </div>
           </form>
