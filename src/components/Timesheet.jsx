@@ -235,16 +235,21 @@ function Timesheet({ user, onLogout, onNavigateToHome, onNavigateToClientes }) {
               />
               <span>Asignar horas default</span>
             </label>
-            <div className="filters-actions">
+          </div>
+		  <div className="filters-actions">
               <button type="button" className="secondary-button">
                 Recargar Grilla
               </button>
               <button type="button" className="secondary-button">
                 Mis horas
               </button>
-            </div>
-          </div>
-          <p className="filters-hint">Haga click en Editar y utilice este campo para agregar una descripción</p>
+            <button type="button" className="primary-button" onClick={() => addEntryAfter(entries.length - 1)}>
+              Agregar fila
+            </button>
+            <button type="button" className="primary-button outlined">
+              Guardar cambios
+            </button>		  
+        </div>
         </section>
         <section className="entries-card">
           <table className="entries-table">
@@ -362,14 +367,6 @@ function Timesheet({ user, onLogout, onNavigateToHome, onNavigateToClientes }) {
               ))}
             </tbody>
           </table>
-          <div className="table-footer">
-            <button type="button" className="primary-button" onClick={() => addEntryAfter(entries.length - 1)}>
-              Agregar fila
-            </button>
-            <button type="button" className="primary-button outlined">
-              Guardar cambios
-            </button>
-          </div>
         </section>
       </main>
     </div>
