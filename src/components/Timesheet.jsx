@@ -267,14 +267,6 @@ function Timesheet({ user, onLogout, onNavigateToHome, onNavigateToClientes }) {
                     <button
                       type="button"
                       className="icon-button"
-                      onClick={() => addEntryAfter(index)}
-                      aria-label="Agregar registro debajo"
-                    >
-                      +
-                    </button>
-                    <button
-                      type="button"
-                      className="icon-button"
                       onClick={() => removeEntry(entry.id)}
                       aria-label="Eliminar registro"
                     >
@@ -331,10 +323,16 @@ function Timesheet({ user, onLogout, onNavigateToHome, onNavigateToClientes }) {
                   </td>
                   <td className="hours-cell">
                     <input
-                      type="time"
-                      step={stepMinutes * 60}
+                      type="text"
+                      inputMode="numeric"
+                      pattern="^([01]\\d|2[0-3]):[0-5]\\d$"
+                      maxLength={5}
                       value={entry.hours}
-                      onChange={(event) => handleEntryChange(entry.id, 'hours', event.target.value)}
+                      onChange={(event) => {
+                        const value = event.target.value.replace(/[^0-9:]/g, '')
+                        handleEntryChange(entry.id, 'hours', value)
+                      }}
+                      placeholder="00:00"
                     />
                   </td>
                   <td>
