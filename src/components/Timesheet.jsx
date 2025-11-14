@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 import SlideMenu from './SlideMenu'
+import './Timesheet.css'
 
 const clients = ['Intersoft', 'Cliente Demo']
 
@@ -126,7 +127,7 @@ function Timesheet({ user, onLogout, onNavigateToHome, onNavigateToClientes }) {
   }
 
   return (
-    <div className="timesheet-layout">
+    <div className={`timesheet-layout ${isMenuOpen ? 'menu-open' : ''}`}>
       <div className="brand-accent" />
       <SlideMenu
         isOpen={isMenuOpen}
