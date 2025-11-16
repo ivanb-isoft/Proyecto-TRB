@@ -72,12 +72,6 @@
   margin-bottom: 0.3rem;
 }
 
-.checkbox-field input {
-  width: 18px;
-  height: 18px;
-  accent-color: #f3a22a;
-}
-
 .filters-actions {
   display: flex;
   gap: 0.75rem;

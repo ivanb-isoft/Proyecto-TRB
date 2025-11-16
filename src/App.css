@@ -162,14 +162,14 @@
   font-family: inherit;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
   background-color: #ffffff;
-  color: #27344a;
+  color: #222f5e;
 }
 
 .form-field input:focus,
 .form-field select:focus,
 .form-field textarea:focus {
-  border-color: #f3a22a;
-  box-shadow: 0 0 0 3px rgba(243, 162, 42, 0.25);
+  border-color: #d5d9e2;
+  box-shadow: 0 0 0 3px rgba(109, 73, 252, 0.25);
   outline: none;
 }
 
@@ -275,8 +275,8 @@
 }
 
 .primary-button {
-  background: linear-gradient(135deg, #f3a22a 0%, #e28f19 100%);
-  color: #1e2838;
+  background: linear-gradient(120deg, #222f5e 100%, #222f5e 100%);
+  color: #fcfcfc;
   padding: 0.75rem 1.4rem;
   align-self: flex-start;
   box-shadow: none;
@@ -563,6 +563,10 @@
   gap: 1.25rem;
 }
 
+.alinear-bottom{
+	align-self: center;
+}
+
 .filters-row {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -582,7 +586,7 @@
 .checkbox-field input {
   width: 18px;
   height: 18px;
-  accent-color: #f3a22a;
+  accent-color: #222f5e;
 }
 
 .filters-actions {

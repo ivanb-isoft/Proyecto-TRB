@@ -122,6 +122,13 @@ function Timesheet({ user, onLogout, onNavigateToHome, onNavigateToClientes }) {
     })
   }
 
+  const addEntryAtStart = () => {
+    setEntries((prev) => {
+      const newEntry = createEmptyEntry()
+      return [newEntry, ...prev]
+    })
+  }
+
   const removeEntry = (id) => {
     setEntries((prev) => prev.filter((entry) => entry.id !== id))
   }
@@ -236,17 +243,18 @@ function Timesheet({ user, onLogout, onNavigateToHome, onNavigateToClientes }) {
               <span>Asignar horas default</span>
             </label>
           </div>
-		  <div className="filters-actions">
-              <button type="button" className="secondary-button">
+		  
+		  <div className="filters-actions alinear-bottom">
+              <button type="button" className="primary-button">
                 Recargar Grilla
               </button>
-              <button type="button" className="secondary-button">
+              <button type="button" className="primary-button">
                 Mis horas
               </button>
-            <button type="button" className="primary-button" onClick={() => addEntryAfter(entries.length - 1)}>
+            <button type="button" className="primary-button" onClick={addEntryAtStart}>
               Agregar fila
             </button>
-            <button type="button" className="primary-button outlined">
+            <button type="button" className="primary-button">
               Guardar cambios
             </button>		  
         </div>
