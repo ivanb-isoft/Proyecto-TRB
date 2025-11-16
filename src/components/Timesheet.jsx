@@ -148,25 +148,25 @@ function Timesheet({ user, onLogout, onNavigateToHome, onNavigateToClientes }) {
           }
         }}
       />
-      <header className="timesheet-header">
+      <header className="home-header">
         <div className="header-left">
-          <button
+         <button
             type="button"
-            className="icon-button burger-button"
+            className="logo-button"
             onClick={() => setMenuOpen(true)}
             aria-label="Abrir menú"
           >
-            ☰
-          </button>
-          <div className="login-logo">
-            <span className="logo-mark">I</span>
-            <span className="logo-text">Intersoft</span>
-          </div>
+            <img src="/logoIntersoftReducido.png" alt="Intersoft" />
+          </button> 
         </div>
         <div className="header-actions">
-          <span className="user-email">{user?.email}</span>
-          <button type="button" className="secondary-button" onClick={onLogout}>
-            Cerrar sesión
+          {user && (
+            <span className="user-name">
+              {user.nombre} {user.apellido}
+            </span>
+          )}
+          <button type="button" className="icon-button user-icon-button" aria-label="Usuario">
+            👤
           </button>
         </div>
       </header>
@@ -343,8 +343,57 @@ function Timesheet({ user, onLogout, onNavigateToHome, onNavigateToClientes }) {
                       maxLength={5}
                       value={entry.hours}
                       onChange={(event) => {
-                        const value = event.target.value.replace(/[^0-9:]/g, '')
-                        handleEntryChange(entry.id, 'hours', value)
+                        const rawValue = event.target.value.replace(/[^0-9:]/g, '')
+                        handleEntryChange(entry.id, 'hours', rawValue)
+                      }}
+                      onBlur={(event) => {
+                        const rawValue = event.target.value.replace(/[^0-9:]/g, '')
+
+                        if (!rawValue) {
+                          return
+                        }
+
+                        const [rawHours = '', rawMinutes = ''] = rawValue.split(':')
+
+                        // Si no hay parte de minutos (solo HH o HH:), no forzamos formato
+                        if (!rawMinutes) {
+                          handleEntryChange(entry.id, 'hours', rawHours)
+                          return
+                        }
+
+                        let hours = rawHours
+                        let minutes = rawMinutes
+
+                        // Validación de horas: tope máximo 24
+                        const hoursNumber = Number.parseInt(hours, 10)
+                        if (Number.isNaN(hoursNumber)) {
+                          hours = '0'
+                        } else if (hoursNumber > 24) {
+                          hours = '24'
+                        } else {
+                          hours = hoursNumber.toString()
+                        }
+
+                        // Validación de minutos:
+                        // - Si las horas son 24, siempre dejar minutos en 00
+                        // - En otros casos, si minutos > 59, se establece en 00
+                        let minutesNumber = Number.parseInt(minutes, 10)
+
+                        if (hours === '24') {
+                          minutes = '00'
+                        } else if (Number.isNaN(minutesNumber)) {
+                          minutes = '00'
+                        } else if (minutesNumber > 59) {
+                          minutes = '00'
+                        } else {
+                          minutes = minutesNumber.toString()
+                        }
+
+                        minutes = minutes.padStart(2, '0').slice(0, 2)
+
+                        const normalizedValue = `${hours}:${minutes}`
+
+                        handleEntryChange(entry.id, 'hours', normalizedValue)
                       }}
                       placeholder="00:00"
                     />

@@ -659,11 +659,6 @@
   font-weight: 600;
 }
 
-.hours-cell input {
-  width: 100%;
-  text-align: center;
-}
-
 .entries-card textarea {
   min-height: 70px;
 }

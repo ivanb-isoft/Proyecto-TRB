@@ -704,6 +704,75 @@ ORDER BY clienteid;
 
 ---
 
+## ⏱️ Pantalla de Carga de Horas (Timesheet)
+
+### Campo de Horas (columna "Hs.")
+
+En la grilla de la pantalla de **carga de horas**, el campo de horas se maneja con un `input` de texto que acepta el formato `HH:MM`.
+
+- **Componente**: `src/components/Timesheet.jsx`
+- **Campo**: Columna `Hs.` de la tabla de entradas
+
+#### Comportamiento del campo
+
+- **Formato aceptado**: `HH:MM` (horas:minutos), con un máximo de 5 caracteres.
+- **Mientras el usuario escribe (`onChange`)**:
+  - Se limpian los caracteres no válidos y solo se permiten dígitos y `:`.
+  - El valor se guarda tal cual lo va tipeando el usuario (`HH`, `HH:`, `HH:M`, `HH:MM`, etc.).
+  - No se bloquea el ingreso de la parte de minutos.
+- **Al salir del campo (`onBlur`)**:
+  - Si solo hay parte de horas (`HH` o `HH:`), se deja únicamente la parte de horas sin forzar minutos.
+  - Si hay parte de minutos:
+    - Si las horas son **24**, los minutos se fuerzan siempre a `00`.
+    - Si los minutos son **mayores que 59**, se normalizan automáticamente a `00`.
+    - Si los minutos son válidos, se formatean a 2 dígitos (por ejemplo, `5` → `05`).
+  - El valor final se guarda en formato `HH:MM`.
+
+#### Fragmento relevante (simplificado)
+
+```javascript
+<input
+  type="text"
+  inputMode="numeric"
+  pattern="^([01]\d|2[0-3]):[0-5]\d$"
+  maxLength={5}
+  value={entry.hours}
+  onChange={(event) => {
+    const rawValue = event.target.value.replace(/[^0-9:]/g, '')
+    handleEntryChange(entry.id, 'hours', rawValue)
+  }}
+  onBlur={(event) => {
+    const rawValue = event.target.value.replace(/[^0-9:]/g, '')
+    if (!rawValue) return
+
+    const [rawHours = '', rawMinutes = ''] = rawValue.split(':')
+    if (!rawMinutes) {
+      handleEntryChange(entry.id, 'hours', rawHours)
+      return
+    }
+
+    let hours = rawHours
+    let minutes = rawMinutes
+    const minutesNumber = Number.parseInt(minutes, 10)
+
+    if (Number.isNaN(minutesNumber) || minutesNumber > 59) {
+      minutes = '00'
+    } else {
+      minutes = minutesNumber.toString()
+    }
+
+    minutes = minutes.padStart(2, '0').slice(0, 2)
+    const normalizedValue = `${hours}:${minutes}`
+    handleEntryChange(entry.id, 'hours', normalizedValue)
+  }}
+  placeholder="00:00"
+/>
+```
+
+Con esta lógica, el sistema garantiza que la parte de **minutos nunca supere 59** y, en caso de hacerlo, se establece automáticamente en `00` al perder el foco del campo.
+
+---
+
 ## 🚀 Comandos de Ejecución
 
 ### Desarrollo
